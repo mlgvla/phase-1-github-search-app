@@ -11,5 +11,13 @@ function setElements() {
   })
 }
 
-    
+function getUsers(user) {
+    fetch(`https://api.github.com/search/users?q=${user}`, {
+        method: "GET",
+        headers: {
+            Accept: "application/vnd.github.v3+json"
+        }
+    })
+    .then(r => r.json())
+    .then(users => console.log(users))
 }
