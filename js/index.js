@@ -44,7 +44,7 @@ function buildUser(user) {
 
   let profile = document.createElement("a")
   profile.href = user.html_url
-  profile.innerHTML = "Profile"
+  profile.innerHTML = "Profile" //user profile link
 
   li.append(avatarImg, userRepoLink, profile)
   ul.appendChild(li)
