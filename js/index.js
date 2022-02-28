@@ -1,10 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-  setElements()
+  setForm()
 })
-let form
+let form = null
 
-
-function setElements() {
+function setForm() {
   form = document.getElementById("github-form")
   form.addEventListener("submit", e => {
     e.preventDefault()
@@ -24,23 +23,40 @@ function getUsers(user) {
 }
 
 function displayUsers(users) {
-
-    console.log(users)
-
-    users.forEach(user => {
-        buildUser(user)
-    });
-  
+  users.forEach(user => {
+    buildUser(user)
+  })
 }
 
 function buildUser(user) {
-    let ul = document.getElementById('user-list')
-    console.log(ul)
-    let li = document.createElement('li')
-    let avatarImg = document.createElement('img')
-    avatarImg.height = "50"
-    avatarImg.width = "50"
-    avatarImg.src = user.avatar_url
-    li.appendChild(avatarImg)
-    ul.appendChild(li)
+  let ul = document.getElementById("user-list")
+
+  let li = document.createElement("li")
+
+  let avatarImg = document.createElement("img")
+  avatarImg.height = "50"
+  avatarImg.width = "50"
+  avatarImg.src = user.avatar_url
+
+  let userRepoLink = document.createElement("a")
+  userRepoLink.innerHTML = `&nbsp&nbsp&nbsp${user.login}&nbsp&nbsp&nbsp`
+  userRepoLink.addEventListener("click", () => getRepos(user.repos_url))
+
+  let profile = document.createElement("a")
+  profile.href = user.html_url
+  profile.innerHTML = "Profile"
+
+  li.append(avatarImg, userRepoLink, profile)
+  ul.appendChild(li)
+}
+
+function getRepos(url) {
+  fetch(url, {
+      method: "GET",
+      headers: {
+        Accept: "application/vnd.github.v3+json",
+      }
+  })
+  .then(r => r.json())
+  .then(repos => console.log(repos))
 }
