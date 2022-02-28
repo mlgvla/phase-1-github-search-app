@@ -1,15 +1,9 @@
-document.addEventListener("DOMContentLoaded", () => {
-  setForm()
-})
-let form = null
+let userForm = document.getElementById('github-form')
 
-function setForm() {
-  form = document.getElementById("github-form")
-  form.addEventListener("submit", e => {
+userForm.addEventListener("submit", (e) => {
     e.preventDefault()
     getUsers(e.target.search.value)
   })
-}
 
 function getUsers(user) {
   fetch(`https://api.github.com/search/users?q=${user}`, {
@@ -61,14 +55,15 @@ function getRepos(url) {
 }
 
 function displayRepos(repos) {
-    let repoList = document.getElementById('repos-list')
-    repos.forEach((repo) => {
-        console.log(repo)
-      let li = document.createElement('li')
-      let repoLink = document.createElement('a')
-      repoLink.href = repo.html_url
-      repoLink.innerHTML = repo.full_name
-      li.appendChild(repoLink)
-      repoList.appendChild(li)
-    })
+  let repoList = document.getElementById("repos-list")
+  repoList.innerHTML = ""
+  repos.forEach(repo => {
+    console.log(repo)
+    let li = document.createElement("li")
+    let repoLink = document.createElement("a")
+    repoLink.href = repo.html_url
+    repoLink.innerHTML = repo.full_name
+    li.appendChild(repoLink)
+    repoList.appendChild(li)
+  })
 }
